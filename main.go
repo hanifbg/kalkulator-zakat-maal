@@ -6,11 +6,11 @@ import (
 	"html/template"
 	"encoding/json"
 	"path"
-	"os"
+	//"os"
 	"github.com/pushm0v/golddigger"
 )
 
-func handleSave(w http.ResponseWriter, r *http.Request) {
+func handleCount(w http.ResponseWriter, r *http.Request) {
     if r.Method == "POST" {
         decoder := json.NewDecoder(r.Body)
         payload := struct {
@@ -28,25 +28,33 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
         nama := payload.Name
 
         if payload.Total_wealth < nisab {
-	        message := fmt.Sprintf(
-	            "Total harta %s %d, dan Nisab saat ini %d. Karena Total harta lebih kecil dari nisab anda tidak perlu membayar zakat", 
-	            nama,
-	            payload.Total_wealth,
-	            nisab, 
-	        )
-        w.Write([]byte(message))
-        return
+        	data := [] struct {
+			        Type int
+			        Name  string
+			        Total_wealth int
+			        Nisab int
+			    } {
+			        { 0, nama, payload.Total_wealth, nisab},
+			    }
+	        jsonInBytes, _ := json.Marshal(data)
+	        w.Header().Set("Content-Type", "application/json")
+	        w.Write(jsonInBytes)
+	        return
     	} else {
     		zakat := payload.Total_wealth * 25 / 100
-	        message := fmt.Sprintf(
-	            "Total harta %s %d, dan Nisab saat ini %d. Karena total harta lebih besar dari nisab jadi zakat maal yang harus anda bayarkan sebesar %d", 
-	            nama,
-	            payload.Total_wealth,
-	            nisab,
-	            zakat,
-	        )
-        w.Write([]byte(message))
-        return
+        	data := [] struct {
+			        Type int
+			        Name  string
+			        Total_wealth int
+			        Nisab int
+			        Zakat int
+			    } {
+			        { 1, nama, payload.Total_wealth, nisab, zakat},
+			    }
+	        jsonInBytes, _ := json.Marshal(data)
+	        w.Header().Set("Content-Type", "application/json")
+	        w.Write(jsonInBytes)
+        	return
     	}
     }
     http.Error(w, "Only accept POST request", http.StatusBadRequest)
@@ -62,15 +70,15 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     http.HandleFunc("/", handleIndex)
-    http.HandleFunc("/save", handleSave)
+    http.HandleFunc("/save", handleCount)
 
     http.Handle("/static/", 
         http.StripPrefix("/static/", 
             http.FileServer(http.Dir("assets"))))
 
     fmt.Println("server started at localhost:5000")
-    err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-    // err := http.ListenAndServe(":5000", nil)
+    // err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+    err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}

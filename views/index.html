@@ -13,7 +13,6 @@
 
 				    var $self = $(this);
 				    var payload = JSON.stringify({
-				        gold_value: parseInt($('[name="gold_value"]').val(), 10),
 				        wealth: parseInt($('[name="wealth"]').val(), 10),
 				        line_name: $('[name="line_name"]').val()
 				    });
@@ -24,7 +23,21 @@
 				        data: payload,
 				        contentType: 'application/json',
 				    }).then(function (res) {
-				        $(".message").text(res);
+				    	if (res[0]["Type"] == 0) {
+					        $("#message2").hide();
+					        $("#nama").text(res[0]["Name"]);
+					        $("#harta").text(res[0]["Total_wealth"]);
+					        $("#nisab").text(res[0]["Nisab"]);
+					        $("#message1").show();
+				        } else {
+					        $("#message1").hide();
+					        $("#nama2").text(res[0]["Name"]);
+					        $("#harta2").text(res[0]["Total_wealth"]);
+					        $("#nisab2").text(res[0]["Nisab"]);
+					        $("#zakat2").text(res[0]["Zakat"]);
+					        $("#message2").show();
+					    }
+				        //document.getElementById('message1').disabled = false;
 				    }).catch(function (a) {
 				        alert("ERROR: " + a.responseText);
 				    });
@@ -37,7 +50,8 @@
     	<div class="info_zakat_harta">
 			<p>Zakat Harta atau Zakat Maal adalah sejumlah harta yang wajib dikeluarkan bila telah mencapai batas minimal tertentu (nisab) dalam kurun waktu (haul) setiap satu tahun kalender. Nisab Zakat Maal adalah setara dengan 85 gr emas 24 karat.</p>
 		</div>
-        <p class="message"></p>
+        <div id="message1" hidden>Total harta <p style="font-weight: bold;" id="nama"></p> dalam kurun 1 tahun sebesar <p style="font-weight: bold;" id="harta"></p>, dan Nisab saat ini <p style="font-weight: bold;" id="nisab"></p>. Karena Total harta lebih kecil dari nisab anda tidak perlu membayar zakat</div>
+        <div id="message2" hidden>Total harta <p style="font-weight: bold;" id="nama2"></p> dalam kurun 1 tahun sebesar <p style="font-weight: bold;" id="harta2"></p>, dan Nisab saat ini <p style="font-weight: bold;" id="nisab2"></p>. Karena total harta lebih besar dari nisab jadi zakat maal yang harus anda bayarkan sebesar <p style="font-weight: bold;" id="zakat2"></p></div>
         <form id="user-form" method="post" action="/save">
         	<table noborder>
 			    <tr>
