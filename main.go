@@ -39,7 +39,8 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
     	} else {
     		zakat := payload.Total_wealth * 25 / 100
 	        message := fmt.Sprintf(
-	            "Total harta Anda %d, dan Nisab saat ini %d. Karena total harta lebih besar dari nisab jadi zakat maal yang harus anda bayarkan sebesar %d", 
+	            "Total harta %s %d, dan Nisab saat ini %d. Karena total harta lebih besar dari nisab jadi zakat maal yang harus anda bayarkan sebesar %d", 
+	            nama,
 	            payload.Total_wealth,
 	            nisab,
 	            zakat,
