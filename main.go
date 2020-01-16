@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"encoding/json"
 	"path"
-	//"os"
+	"os"
 	"github.com/pushm0v/golddigger"
 )
 
@@ -77,8 +77,8 @@ func main() {
             http.FileServer(http.Dir("assets"))))
 
     fmt.Println("server started at localhost:5000")
-    // err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-    err := http.ListenAndServe(":5000", nil)
+    err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+    // err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}
