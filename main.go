@@ -6,14 +6,14 @@ import (
 	"html/template"
 	"encoding/json"
 	"path"
-	"os"
+	//"os"
+	"github.com/pushm0v/golddigger"
 )
 
 func handleSave(w http.ResponseWriter, r *http.Request) {
     if r.Method == "POST" {
         decoder := json.NewDecoder(r.Body)
         payload := struct {
-            Gold_value   int 	`json:"gold_value"`
             Total_wealth int 	`json:"wealth"`
             Name string `json:"line_name"`
         }{}
@@ -22,9 +22,10 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
             return
         }
 
-        nisab := 85*payload.Gold_value
+
+        price, _ := golddigger.DigHargaEmasOrg()
+        nisab := 85*price
         nama := payload.Name
-        // fmt.Println("%s", nama)
         // fmt.Println("%s", payload.Name)
 
         if payload.Total_wealth < nisab {
@@ -69,8 +70,8 @@ func main() {
             http.FileServer(http.Dir("assets"))))
 
     fmt.Println("server started at localhost:5000")
-    err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-    // err := http.ListenAndServe(":5000", nil)
+    //err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+     err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}
