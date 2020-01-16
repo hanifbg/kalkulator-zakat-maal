@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"encoding/json"
 	"path"
-	//"os"
+	"os"
 	"github.com/pushm0v/golddigger"
 )
 
@@ -26,7 +26,6 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
         price, _ := golddigger.DigHargaEmasOrg()
         nisab := 85*price
         nama := payload.Name
-        // fmt.Println("%s", payload.Name)
 
         if payload.Total_wealth < nisab {
 	        message := fmt.Sprintf(
@@ -70,8 +69,8 @@ func main() {
             http.FileServer(http.Dir("assets"))))
 
     fmt.Println("server started at localhost:5000")
-    //err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-     err := http.ListenAndServe(":5000", nil)
+    err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+    // err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}
