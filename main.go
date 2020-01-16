@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"encoding/json"
 	"path"
+	"os"
 )
 
 func handleSave(w http.ResponseWriter, r *http.Request) {
@@ -62,6 +63,9 @@ func main() {
         http.StripPrefix("/static/", 
             http.FileServer(http.Dir("assets"))))
 
-    fmt.Println("server started at localhost:9000")
-    http.ListenAndServe(":9000", nil)
+    //fmt.Println("server started at localhost:5000")
+    err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	if err != nil {
+		panic(err)
+	}
 }
