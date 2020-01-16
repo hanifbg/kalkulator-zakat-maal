@@ -15,7 +15,7 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
         payload := struct {
             Gold_value   int 	`json:"gold_value"`
             Total_wealth int 	`json:"wealth"`
-            //Gender string `json:"gender"`
+            Name string `json:"line_name"`
         }{}
         if err := decoder.Decode(&payload); err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -23,10 +23,14 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
         }
 
         nisab := 85*payload.Gold_value
+        nama := payload.Name
+        // fmt.Println("%s", nama)
+        // fmt.Println("%s", payload.Name)
 
         if payload.Total_wealth < nisab {
 	        message := fmt.Sprintf(
-	            "Total harta Anda %d, dan Nisab saat ini %d. Karena Total harta lebih kecil dari nisab anda tidak perlu membayar zakat", 
+	            "Total harta %s %d, dan Nisab saat ini %d. Karena Total harta lebih kecil dari nisab anda tidak perlu membayar zakat", 
+	            nama,
 	            payload.Total_wealth,
 	            nisab, 
 	        )
@@ -65,6 +69,7 @@ func main() {
 
     fmt.Println("server started at localhost:5000")
     err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+    // err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}

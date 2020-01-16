@@ -60,7 +60,7 @@ function initializeApp() {
     if (liff.isLoggedIn()) {
         document.getElementById('liffLoginButton').disabled = true;
         liff.getProfile().then(function(profile) {
-            document.getElementById('displayNameField').textContent = profile.displayName;
+            document.getElementById('displayNameField').value = profile.displayName;
         }).catch(function(error) {
             window.alert('Error getting profile: ' + error);
         });
