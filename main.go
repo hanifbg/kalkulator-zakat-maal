@@ -12,6 +12,8 @@ import (
 
 func handleCount(w http.ResponseWriter, r *http.Request) {
     if r.Method == "POST" {
+
+        
         decoder := json.NewDecoder(r.Body)
         payload := struct {
             Total_wealth int 	`json:"wealth"`
@@ -21,7 +23,6 @@ func handleCount(w http.ResponseWriter, r *http.Request) {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
-
 
         price, _ := golddigger.DigHargaEmasOrg()
         nisab := 85*price
