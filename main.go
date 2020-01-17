@@ -16,8 +16,9 @@ func handleCount(w http.ResponseWriter, r *http.Request) {
         
         decoder := json.NewDecoder(r.Body)
         payload := struct {
-            Total_wealth int 	`json:"wealth"`
+            Wealth int 	`json:"wealth"`
             Name string `json:"line_name"`
+            Gold_amount int `json:"gold_amount"`
         }{}
         if err := decoder.Decode(&payload); err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -25,24 +26,25 @@ func handleCount(w http.ResponseWriter, r *http.Request) {
         }
 
         price, _ := golddigger.DigHargaEmasOrg()
-        nisab := 85*price
+        nisab := 85 * price
+        Total_wealth := payload.Wealth + (payload.Gold_amount * price)
         nama := payload.Name
 
-        if payload.Total_wealth < nisab {
+        if Total_wealth <= nisab {
         	data := [] struct {
 			        Type int
 			        Name  string
 			        Total_wealth int
 			        Nisab int
 			    } {
-			        { 0, nama, payload.Total_wealth, nisab},
+			        { 0, nama, Total_wealth, nisab},
 			    }
 	        jsonInBytes, _ := json.Marshal(data)
 	        w.Header().Set("Content-Type", "application/json")
 	        w.Write(jsonInBytes)
 	        return
     	} else {
-    		zakat := payload.Total_wealth * 25 / 100
+    		zakat := Total_wealth * 25 / 1000
         	data := [] struct {
 			        Type int
 			        Name  string
@@ -50,7 +52,7 @@ func handleCount(w http.ResponseWriter, r *http.Request) {
 			        Nisab int
 			        Zakat int
 			    } {
-			        { 1, nama, payload.Total_wealth, nisab, zakat},
+			        { 1, nama, Total_wealth, nisab, zakat},
 			    }
 	        jsonInBytes, _ := json.Marshal(data)
 	        w.Header().Set("Content-Type", "application/json")

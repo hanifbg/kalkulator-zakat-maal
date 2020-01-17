@@ -20,7 +20,8 @@
 				    var $self = $(this);
 				    var payload = JSON.stringify({
 				        wealth: parseInt($('[name="wealth"]').val(), 10),
-				        line_name: $('[name="line_name"]').val()
+				        line_name: $('[name="line_name"]').val(),
+				        gold_amount: parseInt($('[name="gold_amount"]').val(), 10)
 				    });
 
 				    $.ajax({
@@ -52,41 +53,48 @@
         </script>
     </head>
     <body>
-    	<h3 class="zakat_harta">Zakat Maal</h3>
-    	<div class="info_zakat_harta">
-			<p>Zakat Harta atau Zakat Maal adalah sejumlah harta yang wajib dikeluarkan bila telah mencapai batas minimal tertentu (nisab) dalam kurun waktu (haul) setiap satu tahun kalender. Nisab Zakat Maal adalah setara dengan 85 gr emas 24 karat.</p>
-		</div>
+    	<div style="margin-left: 10px; margin-right: 10px">
+	    	<h3 class="zakat_harta">Kalkulator Perhitungan Zakat Maal (melalui beberapa pendekatan)</h3>
+				<p style="text-align: justify;">Zakat Harta atau Zakat Maal adalah sejumlah harta yang wajib dikeluarkan bila telah mencapai batas minimal tertentu (nisab) dalam kurun waktu (haul) setiap satu tahun kalender. Nisab Zakat Maal adalah setara dengan 85 gr emas 24 karat.</p>
 
-			<div id="message" style="padding-bottom: 10px"> 
-        <div id="message1" style="display: none;">
-        	Hai <strong id="nama"></strong>total harta kamu dalam kurun 1 tahun sebesar <strong id="harta"></strong>, dan Nisab saat ini <strong id="nisab"></strong>. Karena Total harta lebih kecil dari nisab anda tidak perlu membayar zakat
-        </div>
+				<div id="message" style="padding-bottom: 10px"> 
+	        <div id="message1" style="display: none; text-align: justify;">
+	        	Hai <strong id="nama"></strong> total harta kamu dalam kurun 1 tahun sebesar <strong id="harta"></strong>, dan Nisab saat ini <strong id="nisab"></strong>. Karena total harta Anda tidak lebih besar dari nisab anda tidak perlu membayar zakat
+	        </div>
 
-        <div id="message2" style="display: none;">
-        	Hai <strong id="nama2"></strong>total harta kamu dalam kurun 1 tahun sebesar <strong id="harta2"></strong>, dan Nisab saat ini <strong id="nisab2"></strong>. Karena total harta lebih besar dari nisab jadi zakat maal yang harus anda bayarkan sebesar <strong id="zakat2"></strong>
-        </div>
-      </div>
+	        <div id="message2" style="display: none; text-align: justify;">
+	        	Hai <strong id="nama2"></strong> total harta kamu dalam kurun 1 tahun sebesar <strong id="harta2"></strong>, dan Nisab saat ini <strong id="nisab2"></strong>. Karena total harta lebih besar dari nisab jadi zakat maal yang harus anda bayarkan sebesar <strong id="zakat2"></strong>
+	        </div>
+	      </div>
 
-      <div style="padding-bottom: 10px">
-	      <form id="user-form" method="post" action="/save">
-				  <div class="form-group">
-				    <label>Total Harta</label>
-				    <input required type="number" class="form-control" name="wealth" placeholder="Total Harta">
-				    <small id="hartaHelp" class="form-text text-muted">Akumulasi Harta yang mengendap (tidak digunakan) selama 1 tahun.</small>
-				  </div>
-				  <input id="displayNameField" type="hidden" name="line_name" value="">
-				  <div class="text-center">
-				  	<button type="submit" class="btn btn-primary">Submit</button>
-				  </div>
-				</form>
-			</div>
+	      <div style="padding-bottom: 10px">
+		      <form id="user-form" method="post" action="/save">
+					  <div class="form-group">
+					    <label>Harta dalam bentuk Tabungan/Giro/Deposito</label>
+					    <input required type="number" class="form-control" name="wealth" placeholder="Total Harta">
+					    <small id="hartaHelp" class="form-text text-muted">Yang tidak digunakan untuk kebutuhan sehari-hari atau diluar pengeluaran tetap.</small>
+					  </div>
 
-      <div id="liffAppContent" class="text-center">
-          <div class="buttonGroup">
-              <button id="liffLoginButton" class="btn btn-success">Masuk</button>
-              <button id="liffLogoutButton" class="btn btn-danger">Keluar</button>
-          </div>
-      </div>
+					  <div class="form-group">
+					    <label>Harta dalam bentuk Emas (dalam gram)</label>
+					    <input required type="number" class="form-control" name="gold_amount" placeholder="Total Harta">
+					    <small id="hartaHelp" class="form-text text-muted">.</small>
+					  </div>
+
+					  <input id="displayNameField" type="hidden" name="line_name" value="">
+					  <div class="text-center">
+					  	<button type="submit" class="btn btn-primary">Submit</button>
+					  </div>
+					</form>
+				</div>
+
+	      <div id="liffAppContent" class="text-center">
+	          <div class="buttonGroup">
+	              <button id="liffLoginButton" class="btn btn-success">Masuk</button>
+	              <button id="liffLogoutButton" class="btn btn-danger">Keluar</button>
+	          </div>
+	      </div>
+	    </div>  
 
       <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
       <script src="static/liff-starter.js"></script>
