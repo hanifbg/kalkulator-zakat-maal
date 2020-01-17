@@ -71,13 +71,13 @@
 		      <form id="user-form" method="post" action="/save">
 					  <div class="form-group">
 					    <label>Harta dalam bentuk Tabungan/Giro/Deposito</label>
-					    <input required type="number" class="form-control" name="wealth" placeholder="Total Harta">
+					    <input required type="number" class="form-control" name="wealth" placeholder="Total Harta" min="0">
 					    <small id="hartaHelp" class="form-text text-muted">Yang tidak digunakan untuk kebutuhan sehari-hari atau diluar pengeluaran tetap.</small>
 					  </div>
 
 					  <div class="form-group">
 					    <label>Harta dalam bentuk Emas (dalam gram)</label>
-					    <input required type="number" class="form-control" name="gold_amount" placeholder="Total Harta">
+					    <input required type="number" class="form-control" name="gold_amount" placeholder="Total Harta" min="0">
 					    <small id="hartaHelp" class="form-text text-muted">.</small>
 					  </div>
 
